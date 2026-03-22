@@ -1154,6 +1154,7 @@ static void IN_HandleWindowEvent( Uint32 type, const SDL_WindowEvent *window, ke
 	switch ( type )
 	{
 		case SDL_EVENT_WINDOW_MOVED:
+			GLW_UpdateWindowState();
 			if ( gw_active && !gw_minimized && !glw_state.isFullscreen ) {
 				Cvar_SetIntegerValue( "vid_xpos", window->data1 );
 				Cvar_SetIntegerValue( "vid_ypos", window->data2 );
@@ -1162,20 +1163,25 @@ static void IN_HandleWindowEvent( Uint32 type, const SDL_WindowEvent *window, ke
 
 		case SDL_EVENT_WINDOW_RESIZED:
 		case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
-			glw_state.window_width = window->data1;
-			glw_state.window_height = window->data2;
+		case SDL_EVENT_WINDOW_DISPLAY_CHANGED:
+		case SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED:
+		case SDL_EVENT_WINDOW_ENTER_FULLSCREEN:
+		case SDL_EVENT_WINDOW_LEAVE_FULLSCREEN:
+			GLW_UpdateWindowState();
 			break;
 
 		case SDL_EVENT_WINDOW_HIDDEN:
 		case SDL_EVENT_WINDOW_MINIMIZED:
 			gw_active = qfalse;
 			gw_minimized = qtrue;
+			mouse_focus = qfalse;
 			break;
 
 		case SDL_EVENT_WINDOW_SHOWN:
 		case SDL_EVENT_WINDOW_RESTORED:
 		case SDL_EVENT_WINDOW_MAXIMIZED:
 			gw_minimized = qfalse;
+			GLW_UpdateWindowState();
 			break;
 
 		case SDL_EVENT_WINDOW_FOCUS_LOST:
@@ -1183,6 +1189,7 @@ static void IN_HandleWindowEvent( Uint32 type, const SDL_WindowEvent *window, ke
 			Key_ClearStates();
 			IN_SyncModifiers();
 			gw_active = qfalse;
+			mouse_focus = qfalse;
 			break;
 
 		case SDL_EVENT_WINDOW_FOCUS_GAINED:
@@ -1191,6 +1198,8 @@ static void IN_HandleWindowEvent( Uint32 type, const SDL_WindowEvent *window, ke
 			IN_SyncModifiers();
 			gw_active = qtrue;
 			gw_minimized = qfalse;
+			mouse_focus = qtrue;
+			GLW_UpdateWindowState();
 			if ( re.SetColorMappings ) {
 				re.SetColorMappings();
 			}
@@ -1296,7 +1305,7 @@ void HandleEvents( void )
 			case SDL_EVENT_TEXT_INPUT:
 				if( lastKeyDown != K_CONSOLE )
 				{
-					char *c = e.text.text;
+					const char *c = e.text.text;
 
 					// Quick and dirty UTF-8 to UTF-32 conversion
 					while ( *c )
@@ -1410,6 +1419,10 @@ void HandleEvents( void )
 			case SDL_EVENT_WINDOW_MOUSE_LEAVE:
 			case SDL_EVENT_WINDOW_RESIZED:
 			case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
+			case SDL_EVENT_WINDOW_DISPLAY_CHANGED:
+			case SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED:
+			case SDL_EVENT_WINDOW_ENTER_FULLSCREEN:
+			case SDL_EVENT_WINDOW_LEAVE_FULLSCREEN:
 				IN_HandleWindowEvent( e.type, &e.window, &lastKeyDown );
 				break;
 
@@ -1551,6 +1564,7 @@ void IN_Init( void )
 	Cvar_SetDescription( cl_consoleKeys, "Space delimited list of key names or characters that toggle the console." );
 
 	mouseAvailable = ( in_mouse->value != 0 ) ? qtrue : qfalse;
+	mouse_focus = ( SDL_GetMouseFocus() == SDL_window ) ? qtrue : ( glw_state.isFullscreen ? qtrue : qfalse );
 
 	if ( SDL_window && !SDL_StartTextInput( SDL_window ) ) {
 		Com_DPrintf( "SDL_StartTextInput failed: %s\n", SDL_GetError() );
@@ -1583,6 +1597,7 @@ void IN_Shutdown( void )
 	IN_DeactivateMouse();
 
 	mouseAvailable = qfalse;
+	mouse_focus = qfalse;
 
 #ifdef USE_JOYSTICK
 	IN_ShutdownJoystick();

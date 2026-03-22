@@ -42,6 +42,7 @@ typedef struct
 	int desktop_width;
 	int desktop_height;
 
+	// Window coordinates, used for mouse centering and drag/grab behavior.
 	int window_width;
 	int window_height;
 
@@ -56,6 +57,7 @@ extern cvar_t *in_nograb;
 
 void IN_Init( void );
 void IN_Shutdown( void );
+void GLW_UpdateWindowState( void );
 
 // signals.c
 void InitSig( void );

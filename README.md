@@ -21,7 +21,7 @@ Go to [Releases](../../releases) section to download latest binaries for your pl
 * improved server-side DoS protection, much reduced memory usage
 * raised filesystem limits (up to 20,000 maps can be handled in a single directory)
 * reworked Zone memory allocator, no more out-of-memory errors
-* non-intrusive support for SDL2 backend (video, audio, input), selectable at compile time
+* non-intrusive support for SDL3 backend (video, audio, input), selectable at compile time
 * tons of bug fixes and other improvements
 
 ## Vulkan renderer

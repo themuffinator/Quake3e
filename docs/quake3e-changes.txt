@@ -1,3 +1,7 @@
+21-Mar-2026:
+* SDL: migrate SDL backend, vendored dependency, and build wiring from SDL2 to SDL3
+* renderer2: restore \r_gamma through the final postprocess path when hardware gamma is unavailable
+
 14-Oct-2025:
 * Client: increase default \cl_maxpackets to 125
 * Client: search for modular renderers nearby main executable oly

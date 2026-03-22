@@ -123,6 +123,8 @@ cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\down4x_fp.glsl .\bui
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\down4x_vp.glsl .\build\dynamic\renderer2\down4x_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\fogpass_fp.glsl .\build\dynamic\renderer2\fogpass_fp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\fogpass_vp.glsl .\build\dynamic\renderer2\fogpass_vp.c
+cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\gamma_fp.glsl .\build\dynamic\renderer2\gamma_fp.c
+cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\gamma_vp.glsl .\build\dynamic\renderer2\gamma_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\generic_fp.glsl .\build\dynamic\renderer2\generic_fp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\generic_vp.glsl .\build\dynamic\renderer2\generic_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\lightall_fp.glsl .\build\dynamic\renderer2\lightall_fp.c
@@ -170,6 +172,8 @@ cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\down4x_fp.glsl .\bui
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\down4x_vp.glsl .\build\dynamic\renderer2\down4x_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\fogpass_fp.glsl .\build\dynamic\renderer2\fogpass_fp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\fogpass_vp.glsl .\build\dynamic\renderer2\fogpass_vp.c
+cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\gamma_fp.glsl .\build\dynamic\renderer2\gamma_fp.c
+cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\gamma_vp.glsl .\build\dynamic\renderer2\gamma_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\generic_fp.glsl .\build\dynamic\renderer2\generic_fp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\generic_vp.glsl .\build\dynamic\renderer2\generic_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\lightall_fp.glsl .\build\dynamic\renderer2\lightall_fp.c
@@ -216,6 +220,8 @@ cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\down4x_fp.glsl .\bui
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\down4x_vp.glsl .\build\dynamic\renderer2\down4x_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\fogpass_fp.glsl .\build\dynamic\renderer2\fogpass_fp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\fogpass_vp.glsl .\build\dynamic\renderer2\fogpass_vp.c
+cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\gamma_fp.glsl .\build\dynamic\renderer2\gamma_fp.c
+cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\gamma_vp.glsl .\build\dynamic\renderer2\gamma_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\generic_fp.glsl .\build\dynamic\renderer2\generic_fp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\generic_vp.glsl .\build\dynamic\renderer2\generic_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\lightall_fp.glsl .\build\dynamic\renderer2\lightall_fp.c
@@ -262,6 +268,8 @@ cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\down4x_fp.glsl .\bui
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\down4x_vp.glsl .\build\dynamic\renderer2\down4x_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\fogpass_fp.glsl .\build\dynamic\renderer2\fogpass_fp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\fogpass_vp.glsl .\build\dynamic\renderer2\fogpass_vp.c
+cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\gamma_fp.glsl .\build\dynamic\renderer2\gamma_fp.c
+cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\gamma_vp.glsl .\build\dynamic\renderer2\gamma_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\generic_fp.glsl .\build\dynamic\renderer2\generic_fp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\generic_vp.glsl .\build\dynamic\renderer2\generic_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\lightall_fp.glsl .\build\dynamic\renderer2\lightall_fp.c
@@ -312,6 +320,8 @@ cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\down4x_fp.glsl .\bui
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\down4x_vp.glsl .\build\dynamic\renderer2\down4x_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\fogpass_fp.glsl .\build\dynamic\renderer2\fogpass_fp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\fogpass_vp.glsl .\build\dynamic\renderer2\fogpass_vp.c
+cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\gamma_fp.glsl .\build\dynamic\renderer2\gamma_fp.c
+cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\gamma_vp.glsl .\build\dynamic\renderer2\gamma_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\generic_fp.glsl .\build\dynamic\renderer2\generic_fp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\generic_vp.glsl .\build\dynamic\renderer2\generic_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\lightall_fp.glsl .\build\dynamic\renderer2\lightall_fp.c
@@ -361,6 +371,8 @@ cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\down4x_fp.glsl .\bui
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\down4x_vp.glsl .\build\dynamic\renderer2\down4x_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\fogpass_fp.glsl .\build\dynamic\renderer2\fogpass_fp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\fogpass_vp.glsl .\build\dynamic\renderer2\fogpass_vp.c
+cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\gamma_fp.glsl .\build\dynamic\renderer2\gamma_fp.c
+cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\gamma_vp.glsl .\build\dynamic\renderer2\gamma_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\generic_fp.glsl .\build\dynamic\renderer2\generic_fp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\generic_vp.glsl .\build\dynamic\renderer2\generic_vp.c
 cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\lightall_fp.glsl .\build\dynamic\renderer2\lightall_fp.c
@@ -445,6 +457,8 @@ cscript.exe /nologo glsl_stringify.vbs ..\..\renderer2\glsl\tonemap_vp.glsl .\bu
     <ClCompile Include="build\dynamic\renderer2\down4x_vp.c" />
     <ClCompile Include="build\dynamic\renderer2\fogpass_fp.c" />
     <ClCompile Include="build\dynamic\renderer2\fogpass_vp.c" />
+    <ClCompile Include="build\dynamic\renderer2\gamma_fp.c" />
+    <ClCompile Include="build\dynamic\renderer2\gamma_vp.c" />
     <ClCompile Include="build\dynamic\renderer2\generic_fp.c" />
     <ClCompile Include="build\dynamic\renderer2\generic_vp.c" />
     <ClCompile Include="build\dynamic\renderer2\lightall_fp.c" />

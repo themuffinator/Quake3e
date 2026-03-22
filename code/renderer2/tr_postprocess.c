@@ -93,6 +93,18 @@ void RB_ToneMap(FBO_t *hdrFbo, ivec4_t hdrBox, FBO_t *ldrFbo, ivec4_t ldrBox, in
 	FBO_Blit(hdrFbo, hdrBox, NULL, ldrFbo, ldrBox, &tr.tonemapShader, color, 0);
 }
 
+void RB_GammaCorrect(FBO_t *srcFbo, ivec4_t srcBox, FBO_t *dstFbo, ivec4_t dstBox, float brightness)
+{
+	vec4_t color;
+
+	color[0] =
+	color[1] =
+	color[2] = brightness;
+	color[3] = 1.0f / MAX( r_gamma->value, 0.001f );
+
+	FBO_Blit(srcFbo, srcBox, NULL, dstFbo, dstBox, &tr.gammaShader, color, 0);
+}
+
 /*
 =============
 RB_BokehBlur

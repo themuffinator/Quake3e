@@ -2765,7 +2765,9 @@ static void R_CreateBuiltinImages( void ) {
 
 		tr.renderImage = R_CreateImage("_render", NULL, width, height, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, hdrFormat);
 
-		if (r_shadowBlur->integer)
+		// SDL3 removed the old window gamma APIs, so renderer2 needs this scratch
+		// target whenever hardware gamma is unavailable and we may need a final pass.
+		if (r_shadowBlur->integer || !glConfig.deviceSupportsGamma)
 			tr.screenScratchImage = R_CreateImage("screenScratch", NULL, width, height, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, rgbFormat);
 
 		if (r_shadowBlur->integer || r_ssao->integer)

@@ -36,6 +36,8 @@ extern const char *fallbackShader_down4x_vp;
 extern const char *fallbackShader_down4x_fp;
 extern const char *fallbackShader_fogpass_vp;
 extern const char *fallbackShader_fogpass_fp;
+extern const char *fallbackShader_gamma_vp;
+extern const char *fallbackShader_gamma_fp;
 extern const char *fallbackShader_generic_vp;
 extern const char *fallbackShader_generic_fp;
 extern const char *fallbackShader_lightall_vp;
@@ -1306,6 +1308,23 @@ void GLSL_InitGPUShaders(void)
 	attribs = ATTR_POSITION | ATTR_TEXCOORD;
 	extradefines[0] = '\0';
 
+	if (!GLSL_InitGPUShader(&tr.gammaShader, "gamma", attribs, qtrue, extradefines, qtrue, fallbackShader_gamma_vp, fallbackShader_gamma_fp))
+	{
+		ri.Error(ERR_FATAL, "Could not load gamma shader!");
+	}
+
+	GLSL_InitUniforms(&tr.gammaShader);
+
+	GLSL_SetUniformInt(&tr.gammaShader, UNIFORM_TEXTUREMAP, TB_COLORMAP);
+
+	GLSL_FinishGPUShader(&tr.gammaShader);
+
+	numEtcShaders++;
+
+
+	attribs = ATTR_POSITION | ATTR_TEXCOORD;
+	extradefines[0] = '\0';
+
 	if (!GLSL_InitGPUShader(&tr.tonemapShader, "tonemap", attribs, qtrue, extradefines, qtrue, fallbackShader_tonemap_vp, fallbackShader_tonemap_fp))
 	{
 		ri.Error(ERR_FATAL, "Could not load tonemap shader!");
@@ -1481,6 +1500,7 @@ void GLSL_ShutdownGPUShaders(void)
 	GLSL_DeleteGPUShader(&tr.pshadowShader);
 	GLSL_DeleteGPUShader(&tr.down4xShader);
 	GLSL_DeleteGPUShader(&tr.bokehShader);
+	GLSL_DeleteGPUShader(&tr.gammaShader);
 	GLSL_DeleteGPUShader(&tr.tonemapShader);
 
 	for ( i = 0; i < 2; i++)

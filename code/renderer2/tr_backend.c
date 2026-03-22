@@ -1462,12 +1462,17 @@ static const void *RB_PostProcess(const void *data)
 	FBO_t *srcFbo;
 	ivec4_t srcBox, dstBox;
 	qboolean autoExposure;
+	qboolean fullPostProcess;
+	qboolean needGammaPass;
 
 	// finish any 2D drawing if needed
 	if(tess.numIndexes)
 		RB_EndSurface();
 
-	if (!glRefConfig.framebufferObject || !r_postProcess->integer)
+	fullPostProcess = r_postProcess->integer;
+	needGammaPass = !glConfig.deviceSupportsGamma && tr.screenScratchFbo && fabsf( r_gamma->value - 1.0f ) > 0.001f;
+
+	if (!glRefConfig.framebufferObject || (!fullPostProcess && !needGammaPass))
 	{
 		// do nothing
 		return (const void *)(cmd + 1);
@@ -1493,7 +1498,7 @@ static const void *RB_PostProcess(const void *data)
 	dstBox[2] = backEnd.viewParms.viewportWidth;
 	dstBox[3] = backEnd.viewParms.viewportHeight;
 
-	if (r_ssao->integer)
+	if (fullPostProcess && r_ssao->integer)
 	{
 		srcBox[0] = backEnd.viewParms.viewportX      * tr.screenSsaoImage->width  / (float)glConfig.vidWidth;
 		srcBox[1] = backEnd.viewParms.viewportY      * tr.screenSsaoImage->height / (float)glConfig.vidHeight;
@@ -1510,35 +1515,66 @@ static const void *RB_PostProcess(const void *data)
 
 	if (srcFbo)
 	{
-		if (r_hdr->integer && (r_toneMap->integer || r_forceToneMap->integer))
+		if (fullPostProcess && r_hdr->integer && (r_toneMap->integer || r_forceToneMap->integer))
 		{
 			autoExposure = r_autoExposure->integer || r_forceAutoExposure->integer;
-			RB_ToneMap(srcFbo, srcBox, NULL, dstBox, autoExposure);
+			if (needGammaPass)
+			{
+				RB_ToneMap(srcFbo, srcBox, tr.screenScratchFbo, dstBox, autoExposure);
+				RB_GammaCorrect(tr.screenScratchFbo, dstBox, NULL, dstBox, 1.0f);
+			}
+			else
+			{
+				RB_ToneMap(srcFbo, srcBox, NULL, dstBox, autoExposure);
+			}
 		}
-		else if (r_cameraExposure->value == 0.0f)
+		else if (!fullPostProcess || r_cameraExposure->value == 0.0f)
 		{
-			FBO_FastBlit(srcFbo, srcBox, NULL, dstBox, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+			if (needGammaPass)
+			{
+				RB_GammaCorrect(srcFbo, srcBox, NULL, dstBox, 1.0f);
+			}
+			else
+			{
+				FBO_FastBlit(srcFbo, srcBox, NULL, dstBox, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+			}
 		}
 		else
 		{
 			vec4_t color;
+			const float brightness = pow(2, r_cameraExposure->value);
 
 			color[0] =
 			color[1] =
-			color[2] = pow(2, r_cameraExposure->value); //exp2(r_cameraExposure->value);
+			color[2] = brightness; //exp2(r_cameraExposure->value);
 			color[3] = 1.0f;
 
-			FBO_Blit(srcFbo, srcBox, NULL, NULL, dstBox, NULL, color, 0);
+			if (needGammaPass)
+			{
+				RB_GammaCorrect(srcFbo, srcBox, NULL, dstBox, brightness);
+			}
+			else
+			{
+				FBO_Blit(srcFbo, srcBox, NULL, NULL, dstBox, NULL, color, 0);
+			}
 		}
 	}
+	else if (needGammaPass)
+	{
+		FBO_FastBlit(NULL, srcBox, tr.screenScratchFbo, dstBox, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+		RB_GammaCorrect(tr.screenScratchFbo, dstBox, NULL, dstBox, 1.0f);
+	}
 
-	if (r_drawSunRays->integer)
-		RB_SunRays(NULL, srcBox, NULL, dstBox);
+	if (fullPostProcess)
+	{
+		if (r_drawSunRays->integer)
+			RB_SunRays(NULL, srcBox, NULL, dstBox);
 
-	if (1)
-		RB_BokehBlur(NULL, srcBox, NULL, dstBox, backEnd.refdef.blurFactor);
-	else
-		RB_GaussianBlur(backEnd.refdef.blurFactor);
+		if (1)
+			RB_BokehBlur(NULL, srcBox, NULL, dstBox, backEnd.refdef.blurFactor);
+		else
+			RB_GaussianBlur(backEnd.refdef.blurFactor);
+	}
 
 #if 0
 	if (0)

@@ -23,11 +23,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #ifndef __GLW_LINUX_H__
 #define __GLW_LINUX_H__
 
-#ifdef USE_LOCAL_HEADERS
-#	include "SDL.h"
-#else
-#	include <SDL.h>
+#ifndef SDL_FUNCTION_POINTER_IS_VOID_POINTER
+#	define SDL_FUNCTION_POINTER_IS_VOID_POINTER 1
 #endif
+
+#include <SDL3/SDL.h>
 
 //#define USE_JOYSTICK
 

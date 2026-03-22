@@ -214,7 +214,7 @@ R1DIR=$(MOUNT_DIR)/renderer
 R2DIR=$(MOUNT_DIR)/renderer2
 RVDIR=$(MOUNT_DIR)/renderervk
 SDLDIR=$(MOUNT_DIR)/sdl
-SDLHDIR=$(MOUNT_DIR)/libsdl/include/SDL2
+SDLHDIR=$(MOUNT_DIR)/libsdl/include
 
 CMDIR=$(MOUNT_DIR)/qcommon
 UDIR=$(MOUNT_DIR)/unix
@@ -233,8 +233,8 @@ MKDIR=mkdir -p
 
 ifneq ($(call bin_path, $(PKG_CONFIG)),)
   ifneq ($(USE_SDL),0)
-    SDL_INCLUDE ?= $(shell $(PKG_CONFIG) --silence-errors --cflags-only-I sdl2)
-    SDL_LIBS ?= $(shell $(PKG_CONFIG) --silence-errors --libs sdl2)
+    SDL_INCLUDE ?= $(shell $(PKG_CONFIG) --silence-errors --cflags-only-I sdl3)
+    SDL_LIBS ?= $(shell $(PKG_CONFIG) --silence-errors --libs sdl3)
   else
     X11_INCLUDE ?= $(shell $(PKG_CONFIG) --silence-errors --cflags-only-I x11)
     X11_LIBS ?= $(shell $(PKG_CONFIG) --silence-errors --libs x11)
@@ -257,7 +257,7 @@ ifeq ($(X11_LIBS),)
   X11_LIBS = -lX11
 endif
 ifeq ($(SDL_LIBS),)
-  SDL_LIBS = -lSDL2
+  SDL_LIBS = -lSDL3
 endif
 
 # supply some reasonable defaults for ogg/vorbis
@@ -332,6 +332,10 @@ endif
 
 ifeq ($(USE_LOCAL_HEADERS),1)
   BASE_CFLAGS += -DUSE_LOCAL_HEADERS=1
+endif
+
+ifeq ($(USE_SDL),1)
+  BASE_CFLAGS += -DSDL_FUNCTION_POINTER_IS_VOID_POINTER=1
 endif
 
 ifeq ($(USE_CURL),1)
@@ -453,12 +457,12 @@ ifdef MINGW
     #CLIENT_CFLAGS += -DUSE_LOCAL_HEADERS=1
     ifeq ($(ARCH),x86)
       CLIENT_LDFLAGS += -L$(MOUNT_DIR)/libsdl/windows/mingw/lib32
-      CLIENT_LDFLAGS += -lSDL2
-      CLIENT_EXTRA_FILES += $(MOUNT_DIR)/libsdl/windows/mingw/lib32/SDL2.dll
+      CLIENT_LDFLAGS += -lSDL3
+      CLIENT_EXTRA_FILES += $(MOUNT_DIR)/libsdl/windows/mingw/lib32/SDL3.dll
     else
       CLIENT_LDFLAGS += -L$(MOUNT_DIR)/libsdl/windows/mingw/lib64
-      CLIENT_LDFLAGS += -lSDL264
-      CLIENT_EXTRA_FILES += $(MOUNT_DIR)/libsdl/windows/mingw/lib64/SDL264.dll
+      CLIENT_LDFLAGS += -lSDL3
+      CLIENT_EXTRA_FILES += $(MOUNT_DIR)/libsdl/windows/mingw/lib64/SDL3.dll
     endif
   endif
 
@@ -516,15 +520,15 @@ ifeq ($(COMPILE_PLATFORM),darwin)
   ifeq ($(USE_LOCAL_HEADERS),1)
     MACLIBSDIR=$(MOUNT_DIR)/libsdl/macosx
     BASE_CFLAGS += -I$(SDLHDIR)
-    CLIENT_LDFLAGS += $(MACLIBSDIR)/libSDL2-2.0.0.dylib
-    CLIENT_EXTRA_FILES += $(MACLIBSDIR)/libSDL2-2.0.0.dylib
+    CLIENT_LDFLAGS += $(MACLIBSDIR)/libSDL3.0.dylib
+    CLIENT_EXTRA_FILES += $(MACLIBSDIR)/libSDL3.0.dylib
   else
   ifneq ($(SDL_INCLUDE),)
     BASE_CFLAGS += $(SDL_INCLUDE)
     CLIENT_LDFLAGS = $(SDL_LIBS)
   else
-    BASE_CFLAGS += -I/Library/Frameworks/SDL2.framework/Headers
-    CLIENT_LDFLAGS += -F/Library/Frameworks -framework SDL2
+    BASE_CFLAGS += -F/Library/Frameworks
+    CLIENT_LDFLAGS += -F/Library/Frameworks -framework SDL3
   endif
   endif
 
@@ -914,6 +918,8 @@ Q3REND2STROBJ = \
   $(B)/rend2/glsl/down4x_vp.o \
   $(B)/rend2/glsl/fogpass_fp.o \
   $(B)/rend2/glsl/fogpass_vp.o \
+  $(B)/rend2/glsl/gamma_fp.o \
+  $(B)/rend2/glsl/gamma_vp.o \
   $(B)/rend2/glsl/generic_fp.o \
   $(B)/rend2/glsl/generic_vp.o \
   $(B)/rend2/glsl/lightall_fp.o \

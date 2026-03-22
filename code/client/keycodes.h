@@ -206,12 +206,12 @@ typedef enum {
 	K_UNDO,
 
 	// Gamepad controls
-	// Ordered to match SDL2 game controller buttons and axes
+	// Ordered to match SDL3 gamepad buttons and axes
 	// Do not change this order without also changing IN_GamepadMove() in SDL_input.c
-	K_PAD0_A,
-	K_PAD0_B,
-	K_PAD0_X,
-	K_PAD0_Y,
+	K_PAD0_SOUTH,
+	K_PAD0_EAST,
+	K_PAD0_WEST,
+	K_PAD0_NORTH,
 	K_PAD0_BACK,
 	K_PAD0_GUIDE,
 	K_PAD0_START,
@@ -257,5 +257,10 @@ typedef enum {
 // to avoid duplicating the paths, the char events are just
 // distinguished by or'ing in K_CHAR_FLAG (ugly)
 #define	K_CHAR_FLAG		1024
+
+#define K_PAD0_A K_PAD0_SOUTH
+#define K_PAD0_B K_PAD0_EAST
+#define K_PAD0_X K_PAD0_WEST
+#define K_PAD0_Y K_PAD0_NORTH
 
 #endif

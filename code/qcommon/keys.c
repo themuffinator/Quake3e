@@ -212,10 +212,10 @@ static const keyname_t keynames[] =
 	{"EURO", K_EURO},
 	{"UNDO", K_UNDO},
 
-	{"PAD0_A", K_PAD0_A },
-	{"PAD0_B", K_PAD0_B },
-	{"PAD0_X", K_PAD0_X },
-	{"PAD0_Y", K_PAD0_Y },
+	{"PAD0_SOUTH", K_PAD0_SOUTH },
+	{"PAD0_EAST", K_PAD0_EAST },
+	{"PAD0_WEST", K_PAD0_WEST },
+	{"PAD0_NORTH", K_PAD0_NORTH },
 	{"PAD0_BACK", K_PAD0_BACK },
 	{"PAD0_GUIDE", K_PAD0_GUIDE },
 	{"PAD0_START", K_PAD0_START },
@@ -310,6 +310,15 @@ int Key_StringToKeynum( const char *str ) {
 	if ( str[1] == '\0' ) {
 		return str[0];
 	}
+
+	if ( !Q_stricmp( str, "PAD0_A" ) )
+		return K_PAD0_SOUTH;
+	if ( !Q_stricmp( str, "PAD0_B" ) )
+		return K_PAD0_EAST;
+	if ( !Q_stricmp( str, "PAD0_X" ) )
+		return K_PAD0_WEST;
+	if ( !Q_stricmp( str, "PAD0_Y" ) )
+		return K_PAD0_NORTH;
 
 	// check for hex code
 	if ( strlen( str ) == 4 ) {

@@ -417,6 +417,7 @@ static int GLW_SetMode( int mode, const char *modeFS, qboolean fullscreen, qbool
 
 	if ( fullscreen )
 	{
+		flags |= SDL_WINDOW_HIDDEN;
 	}
 	else if ( r_noborder->integer )
 	{
@@ -665,6 +666,17 @@ static int GLW_SetMode( int mode, const char *modeFS, qboolean fullscreen, qbool
 
 	if ( !fullscreen && r_noborder->integer )
 		SDL_SetWindowHitTest( SDL_window, SDL_HitTestFunc, NULL );
+
+	if ( SDL_GetWindowFlags( SDL_window ) & SDL_WINDOW_HIDDEN )
+	{
+		if ( !SDL_ShowWindow( SDL_window ) ) {
+			Com_DPrintf( "SDL_ShowWindow failed: %s\n", SDL_GetError() );
+		}
+		if ( !SDL_RaiseWindow( SDL_window ) ) {
+			Com_DPrintf( "SDL_RaiseWindow failed: %s\n", SDL_GetError() );
+		}
+		GLW_SyncWindow( "window show" );
+	}
 
 	GLW_UpdateWindowState();
 

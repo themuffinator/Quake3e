@@ -1177,10 +1177,20 @@ static void IN_HandleWindowEvent( Uint32 type, const SDL_WindowEvent *window, ke
 			mouse_focus = qfalse;
 			break;
 
+		case SDL_EVENT_WINDOW_OCCLUDED:
+			if ( glw_state.isFullscreen ) {
+				gw_minimized = qtrue;
+				mouse_focus = qfalse;
+			}
+			break;
+
+		case SDL_EVENT_WINDOW_EXPOSED:
 		case SDL_EVENT_WINDOW_SHOWN:
 		case SDL_EVENT_WINDOW_RESTORED:
 		case SDL_EVENT_WINDOW_MAXIMIZED:
-			gw_minimized = qfalse;
+			if ( gw_active || !glw_state.isFullscreen ) {
+				gw_minimized = qfalse;
+			}
 			GLW_UpdateWindowState();
 			break;
 
@@ -1189,6 +1199,9 @@ static void IN_HandleWindowEvent( Uint32 type, const SDL_WindowEvent *window, ke
 			Key_ClearStates();
 			IN_SyncModifiers();
 			gw_active = qfalse;
+			if ( glw_state.isFullscreen ) {
+				gw_minimized = qtrue;
+			}
 			mouse_focus = qfalse;
 			break;
 

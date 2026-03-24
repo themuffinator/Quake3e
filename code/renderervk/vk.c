@@ -3852,11 +3852,13 @@ static void vk_restart_swapchain( const char *funcname, VkResult res )
 {
 	uint32_t i;
 
+	if ( !ri.CL_IsMinimized() ) {
 #ifdef _DEBUG
-	ri.Printf( PRINT_WARNING, "%s(%s): restarting swapchain...\n", funcname, vk_result_string( res ) );
+		ri.Printf( PRINT_WARNING, "%s(%s): restarting swapchain...\n", funcname, vk_result_string( res ) );
 #else
-	ri.Printf(PRINT_WARNING, "%s(): restarting swapchain...\n", funcname );
+		ri.Printf( PRINT_WARNING, "%s(): restarting swapchain...\n", funcname );
 #endif
+	}
 
 	vk_wait_idle();
 
